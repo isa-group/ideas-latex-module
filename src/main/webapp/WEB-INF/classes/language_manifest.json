@@ -1,0 +1,78 @@
+{
+                "id": "ideas-latex-language",
+                "extension": "tex",
+                "name": "LaTex Language",
+                "formats": [
+                     {
+                        "format": "Latex_format",
+                        "editorModeId": "ace/mode/latex",
+                        "_editorModeURI": "mode-latex.js",                         
+                        "editorThemeId": "ace/theme/latex",
+                        "_editorThemeURI": "theme-latex.js",
+                         "checkLanguage": "true" 
+                     }
+                ],
+                "operations": [
+
+                             {
+                                 "id": "compileToPDF",
+                                 "name": "Compile to PDF",
+                                 "data": {},
+                                 "_remoteExecution": "false",
+                                 "action": "
+function (operationStructure) {
+    var res;
+    var fileUri = EditorManager.currentUri;
+    var temp;
+    CommandApi.doDocumentOperation(operationStructure.id, operationStructure.data, fileUri, function (result) {
+        temp = result.context;
+        $.ajax('files/copyProjectToTemp?temDirectory=' + temp + '&fileUri=' + fileUri, {
+            'type': 'get',
+                'data': {},
+                'success': function (result) {
+                 CommandApi.doDocumentOperation('doActualCompilation', operationStructure.data, fileUri, function (result) {
+
+                    $.ajax('files/copyTemptoProject?temDirectory=' + temp + '/Latex-OutputFolder&fileUri=' + fileUri, {
+                        'type': 'get',
+                            'data': operationStructure.id,
+                            'success': function (result) {
+                            //CommandApi.doDocumentOperation('deleteTemp',operationStructure.data,fileUri,function(result){},true);                                              
+                            FileApi.loadWorkspace(WorkspaceManager.getSelectedWorkspace(), function (ts) {
+                                var j=$('#projectsTree').dynatree('getRoot').childList.length;                                
+                                for (i = 0; i < j - 1; i++){
+                                    $('#projectsTree').dynatree('getRoot').childList[i].remove();
+                                }                                
+                                var node=$('#projectsTree').dynatree('getRoot').childList[0];                                
+                                $('#projectsTree').dynatree('getRoot').addChild(ts);
+                                node.remove();
+                                console.log(ts);
+                                $('.indented.apl_editor_' + WorkspaceManager.getSelectedWorkspace())
+                                    .parent().addClass('active');
+                                $('.dynatree-expander').click();
+                            });
+                        },
+                            'onError': function (result) {
+                            console.log('[ERROR] ' + result);
+                        },
+                            'async': true
+                    });
+
+                }, true);
+            },
+                'onError': function (result) {
+                console.log('[ERROR] ' + result);
+            },
+                'async': true
+        });
+    }, true);
+
+}" ,
+                                 "icon":"glyphicon glyphicon-play",
+                                 "iconOnly":"true"
+                                   	
+                             }
+                             ],
+
+                "inspectorLoader": "function(loader, format) {}" 
+
+            }
