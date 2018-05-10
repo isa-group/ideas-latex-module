@@ -29,12 +29,20 @@ public class LatexCompiler {
 
     public static final String DEFAULT_OUTPUT_FORMAT = "PDF";
 
-    public static Map<String, List<String>> compilationCommandsByOutput = new HashMap<>();
+    /*public static Map<String, List<String>> compilationCommandsByOutput = new HashMap<>();
 
     static {
         compilationCommandsByOutput.put("PDF", Lists.newArrayList("pdflatex -output-directory"));
         compilationCommandsByOutput.put("HTML",Lists.newArrayList("htlatex -output-directory"));
         compilationCommandsByOutput.put("WORD",Lists.newArrayList("pdflatex -output-directory","pdf2word"));
+        
+    }*/
+    
+    public static Map<String, String> compilationCommandsByOutput = new HashMap<>();
+
+    static {
+        compilationCommandsByOutput.put("PDF", "pdflatex -output-directory");
+        compilationCommandsByOutput.put("HTML", "htlatex -output-directory");        
         
     }
 
@@ -52,12 +60,15 @@ public class LatexCompiler {
             if (inputFile.exists()) {
             
             String[] env = buildEnv();
+            /*
             String[] commands = new String[compilationCommandsByOutput.get(outputFormat).size()];
             int i=0;
             for(String command:compilationCommandsByOutput.get(outputFormat)){
                 commands[i]=command + " " + outputPath + " " + file;        
                 i++;
-            }                
+            } **/  
+            String command=compilationCommandsByOutput.get(outputFormat);
+            String commands=command + " " + outputPath + " " + file;
             Process p = Runtime.getRuntime().exec(commands,env,inputPathFile);            
             while (p.isAlive() && current - start <= maxTimeOut ) {
                 try {
