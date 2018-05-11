@@ -46,13 +46,13 @@ public class LatexCompiler {
         
     }
 
-    public synchronized LatexCompilationResult compile(String file, String inputPath, String outputPath) throws IOException {
-        return compile(file, inputPath, outputPath, DEFAULT_OUTPUT_FORMAT);
+    public synchronized LatexCompilationResult compile(String file, String filePath, String inputPath, String outputPath) throws IOException {
+        return compile(file, filePath, inputPath, outputPath, DEFAULT_OUTPUT_FORMAT);
     }
 
-    public synchronized LatexCompilationResult compile(String file, String inputPath, String outputPath, String outputFormat) throws IOException {
-        LatexCompilationResult result = new LatexCompilationResult(file, inputPath, outputPath);
-        List<String> originalFiles = generateNewFiles(outputPath, Collections.EMPTY_LIST);
+    public synchronized LatexCompilationResult compile(String file, String filePath, String inputPath, String outputPath, String outputFormat) throws IOException {
+        LatexCompilationResult result = new LatexCompilationResult(file,filePath, inputPath, outputPath);
+        Map<String,Long> originalFiles = generateNewFiles(outputPath, Collections.EMPTY_MAP);
         long start = System.currentTimeMillis();
         long current = start;
         File inputFile = new File(inputPath + "/" + file);
@@ -83,9 +83,11 @@ public class LatexCompiler {
             }
             result.setDuration(current - start);
             result.setExitCode(p.exitValue());
-            result.setErrors(IOUtils.toString(p.getErrorStream(), encoding));
-            result.setOutput(IOUtils.toString(p.getInputStream(), encoding));
-            result.setOutputFiles(generateNewFiles(outputPath, originalFiles));
+            if(p.getErrorStream().available()!=0)
+                result.setErrors(IOUtils.toString(p.getErrorStream(), encoding));
+            if(p.getInputStream().available()!=0)
+                result.setOutput(IOUtils.toString(p.getInputStream(), encoding));
+            result.setOutputFiles(new ArrayList<String>(generateNewFiles(outputPath, originalFiles).keySet()));
         } else {
             result.setDuration(0);
             result.setExitCode(-1);
@@ -96,16 +98,17 @@ public class LatexCompiler {
         return result;
     }
 
-    private List<String> generateNewFiles(String outputPath, List<String> originalFiles) {
-        List<String> result = new ArrayList<>();
-        File f = new File(outputPath);
+    private Map<String,Long> generateNewFiles(String outputPath, Map<String,Long> originalFiles) {
+        Map<String,Long> result = new HashMap<>();
+        File f = new File(outputPath);       
         if (f.isDirectory()) {
             File[] listing = f.listFiles();
             for (File candidate : listing) {
-                result.add(candidate.getAbsolutePath());
+                result.put(candidate.getAbsolutePath(),candidate.lastModified());
             }
         }
-        result.removeAll(originalFiles);
+        for(String filename:originalFiles.keySet())
+            result.remove(filename, originalFiles.get(filename));        
         return result;
     }
 

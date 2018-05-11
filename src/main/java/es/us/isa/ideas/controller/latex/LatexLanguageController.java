@@ -60,10 +60,11 @@ public class LatexLanguageController extends BaseLanguageController {
             try {
                 String tempDirectory = (String) request.getSession().getAttribute("TempDirectory");
                 LatexCompiler compiler = new LatexCompiler();                
+                String filePath=fileUri.substring(0,fileUri.lastIndexOf("\\")+fileUri.lastIndexOf("/")+1);           
                 String file=fileUri;
                 if(file.contains("/"))
                     file=generateRelativePath(file);
-                LatexCompilationResult compilation = compiler.compile(file, tempDirectory, tempDirectory+OUTPUT_FOLDER, "PDF");
+                LatexCompilationResult compilation = compiler.compile(file,filePath, tempDirectory, tempDirectory+OUTPUT_FOLDER, "PDF");
                 appResponse.setHtmlMessage(compilation.generateHTMLMessage());
                 if (!"".equals(compilation.getErrors())) {
                     appResponse.setStatus(Status.OK_PROBLEMS);

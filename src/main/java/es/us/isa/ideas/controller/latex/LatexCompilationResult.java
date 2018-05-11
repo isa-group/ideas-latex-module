@@ -14,8 +14,9 @@ import java.util.List;
  * @author japarejo
  */
 public class LatexCompilationResult {
-    
+        
     private String file;
+    private String filePath;
     private String inputPath;
     private String outputPath;
     
@@ -26,9 +27,11 @@ public class LatexCompilationResult {
     private List<String> outputFiles;
     
     private long duration;
+    
 
-    public LatexCompilationResult(String file, String inputPath, String outputPath) {
+    public LatexCompilationResult(String file, String filePath, String inputPath, String outputPath) {
         this.file = file;
+        this.filePath=filePath;
         this.inputPath = inputPath;
         this.outputPath = outputPath;
         this.duration=0;
@@ -120,6 +123,7 @@ public class LatexCompilationResult {
     
     public String generateHTMLMessage(){
         StringBuilder builder=new StringBuilder();
+        String filename;
         builder.append("<b>Execution duration:</b>"+duration+" ms<br>\n");
         
         builder.append("<h3>Latex compilation output:</h3>\n");
@@ -130,8 +134,17 @@ public class LatexCompilationResult {
         
         builder.append("<h3>Files generated:</h3>\n");
         builder.append("<ul>\n");
-        for(String file:outputFiles)
-            builder.append("   <li>"+file.substring(file.lastIndexOf("\\")+file.lastIndexOf("/")+2)+"</li>\n");
+        for(String outpuFile:outputFiles){
+            filename=outpuFile.substring(outpuFile.lastIndexOf("\\")+outpuFile.lastIndexOf("/")+2);           
+            builder.append("   <li>");
+            if(outpuFile.endsWith(".pdf"))
+                builder.append("<a href='files/get/"+filePath+LatexLanguageController.OUTPUT_FOLDER+"/"+filename+"' target='_blank'><img src='js/dyntree/skin/../../../css/dyntree/skin/ePDF.png\'>"
+                                +filename+
+                                "</a>");
+            else
+                builder.append(filename);                        
+            builder.append("</li>\n");
+        }
         builder.append("</ul>\n");
         
         return builder.toString();

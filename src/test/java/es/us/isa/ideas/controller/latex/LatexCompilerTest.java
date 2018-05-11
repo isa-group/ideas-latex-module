@@ -52,7 +52,7 @@ public class LatexCompilerTest {
         outputFolder.mkdir();
         LatexCompiler instance = new LatexCompiler();
         LatexCompilationResult expResult = null;
-        LatexCompilationResult result = instance.compile("SimpleLatexDocument.tex", f.getAbsolutePath(), outputFolder.getAbsolutePath());
+        LatexCompilationResult result = instance.compile("SimpleLatexDocument.tex","", f.getAbsolutePath(), outputFolder.getAbsolutePath());
         assertNotNull(result);        
         assertTrue(result.getOutputFiles().size()>=0);
         System.out.println("===================================================");
