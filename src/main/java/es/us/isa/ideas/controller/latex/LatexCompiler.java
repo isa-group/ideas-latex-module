@@ -6,8 +6,11 @@
 package es.us.isa.ideas.controller.latex;
 
 import com.google.common.io.Files;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ArrayList;
@@ -25,8 +28,9 @@ import org.apache.commons.io.IOUtils;
 public class LatexCompiler {
 
     private String encoding = "UTF-8";
-    private long maxTimeOutPerCommand = 10000;
+    private long maxTimeOutPerCommand = 60000;
     private long waitTime = 1000;
+    boolean verbose;
 
     public static final String DEFAULT_OUTPUT_FORMAT = "PDF";
 
@@ -41,9 +45,17 @@ public class LatexCompiler {
     public static Map<String, String> compilationCommandsByOutput = new HashMap<>();
 
     static {
-        compilationCommandsByOutput.put("PDF", "pdflatex ");
+        compilationCommandsByOutput.put("PDF", "pdflatex -synctex=-1 -max-print-line=80 -interaction=nonstopmode ");
         compilationCommandsByOutput.put("HTML", "htlatex ");
 
+    }
+
+    public LatexCompiler() {
+        this(false);
+    }
+
+    public LatexCompiler(boolean verboseMode) {
+        this.verbose = verboseMode;
     }
 
     public synchronized LatexCompilationResult compile(String file, String filePath, String inputPath, String outputPath) throws IOException {
@@ -55,6 +67,9 @@ public class LatexCompiler {
         Map<String, Long> originalFiles = generateNewFiles(outputPath, Collections.EMPTY_MAP);
         long start = System.currentTimeMillis();
         long current = start;
+        if (verbose) {
+            System.out.println("Starting the compilation at: " + start);
+        }
         File inputFile = new File(inputPath + "/" + file);
         File outputFile = new File(outputPath + "/" + file);
         File inputPathFile = new File(inputPath);
@@ -69,20 +84,20 @@ public class LatexCompiler {
             executeCommand(commands, env, result, outputPathFile);
             commands = "makeindex " + file;
             executeCommand(commands, env, result, outputPathFile);
-            commands = "bibtex " + file;
+            commands = "bibtex " + file.substring(0, file.lastIndexOf("."));
             executeCommand(commands, env, result, outputPathFile);
             commands = command + " " + file;
             executeCommand(commands, env, result, outputPathFile);
             result.setOutputFiles(new ArrayList<String>(generateNewFiles(outputPath, originalFiles).keySet()));
-            outputFile.delete();                    
+            outputFile.delete();
             /*
             String[] commands = new String[compilationCommandsByOutput.get(outputFormat).size()];
             int i=0;
             for(String command:compilationCommandsByOutput.get(outputFormat)){
                 commands[i]=command + " " + outputPath + " " + file;        
                 i++;
-            } **/  
-            
+            } **/
+
         } else {
             result.setDuration(0);
             result.setExitCode(-1);
@@ -121,27 +136,47 @@ public class LatexCompiler {
     private void executeCommand(String command, String[] env, LatexCompilationResult result, File inputPathFile) throws IOException {
         long start = System.currentTimeMillis();
         long current = start;
+        if (verbose) {
+            System.out.println(System.currentTimeMillis() + " - Executing command: '" + command + "' at path: '" + inputPathFile + "'");
+        }
         Process p = Runtime.getRuntime().exec(command, env, inputPathFile);
         Writer w = new OutputStreamWriter(p.getOutputStream());
+        BufferedReader out = new BufferedReader(new InputStreamReader(p.getInputStream()));
+        StringBuilder outBuilder=new StringBuilder();
+        BufferedReader error = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+        StringBuilder errorBuilder=new StringBuilder();
+        String line=null;
         while (p.isAlive() && current - start <= maxTimeOutPerCommand) {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(LatexCompiler.class.getName()).log(Level.SEVERE, null, ex);
             }
+            while ((line = out.readLine()) != null) {
+                    outBuilder.append(line);
+            }
+            while ((line = error.readLine()) != null) {
+                    errorBuilder.append(line);
+            }
             current = System.currentTimeMillis();
             if (current - start > maxTimeOutPerCommand) {
                 p.destroy();
+                if (verbose) {
+                    System.out.println(System.currentTimeMillis() + " - Command execution aborted due to timeout.");
+                }
             }
-            w.write("\n");
+            //w.write(" ");
         }
         result.setDuration(current - start);
         result.setExitCode(p.exitValue());
+        if (verbose) {
+            System.out.println(System.currentTimeMillis() + " - Command execution finished with code: " + p.exitValue());
+        }
         if (p.getErrorStream().available() != 0) {
-            result.setErrors(result.getErrors() + IOUtils.toString(p.getErrorStream(), encoding));
+            result.setErrors(result.getErrors() + errorBuilder.toString());
         }
         if (p.getInputStream().available() != 0) {
-            result.setOutput(result.getOutput() + "\n" + IOUtils.toString(p.getInputStream(), encoding));
+            result.setOutput(result.getOutput() + "\n" + outBuilder.toString());
         }
-    }
+    }   
 }

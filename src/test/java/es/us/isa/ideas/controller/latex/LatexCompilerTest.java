@@ -67,6 +67,33 @@ public class LatexCompilerTest {
         System.out.println("===================================================");
         
     }
+    
+    
+    @Test
+    public void testCompile_IntermediateReport() throws Exception {
+        System.out.println("compile");        
+        
+        File f=new File("src/main/resources/testfiles");
+        File outputFolder=new File(f.getAbsolutePath()+"/latexOutput");
+        FileUtils.deleteDirectory(outputFolder);
+        outputFolder.mkdir();
+        LatexCompiler instance = new LatexCompiler(true);
+        LatexCompilationResult expResult = null;
+        LatexCompilationResult result = instance.compile("IntermediateReport.tex","", f.getAbsolutePath(), outputFolder.getAbsolutePath());
+        assertNotNull(result);        
+        assertTrue(result.getOutputFiles().size()>=0);
+        System.out.println("===================================================");
+        System.out.println("SALIDA:"+result.getOutput());
+        System.out.println("===================================================");
+        System.out.println("ERRORES:"+result.getErrors());
+        System.out.println("===================================================");
+        System.out.println("FICHEROS CREADOS:");
+        for(String createdFile:result.getOutputFiles()){
+            System.out.println("   "+createdFile);
+        }
+        System.out.println("===================================================");
+        
+    }
 
     
     

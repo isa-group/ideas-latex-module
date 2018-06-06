@@ -1,0 +1,288 @@
+\documentclass{article}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+
+\begin{document}
+\title{Report of the experiment Mind-1\footnote{Generated automatically by \href{http://exemplar.us.es}{EXEMPLAR}}}
+\author{
+Beatriz Bernardez Jimenez  \\   E-mail: beat@us.es
+\\ 
+University of Sevilla
+    \and
+Amador Durán Toro\\ 
+University of Sevilla
+    \and
+José Antonio Parejo Maestre\\ 
+University of Sevilla
+    \and
+Antonio Ruiz-Cortes\\ 
+University of Sevilla
+}
+
+\maketitle
+
+\begin{abstract}
+\textbf{Context:}\textbf{Mindfulness} is a meditation technique whose \textbf{main goal is to keep the mind calm} and to educate attention by focusing only on one thing at a time, usually breathing. The reported benefits of its continued practice can be of interest for Software Engineering students and practitioners, especially in tasks like conceptual modeling, in which concentration and clearness of mind are crucial.\textbf{Goal:} In order to \textit{evaluate whether Software Engineering students enhance their conceptual modeling performance after several weeks of mindfulness practice}, a series of three controlled experiments were carried out at the University of Seville during three consecutive academic years (2013-2016).\textbf{Method:} Subjects were divided into two groups. While the experimental group practiced mindfulness, the control group was trained in public speaking as a placebo treatment. All the subjects developed two conceptual models based on a transcript of an interview, one before and another one after the treatment. The results were compared in terms of conceptual modeling quality (the percentage of model elements correctly identified) and productivity (the number of model elements correctly identified per unit of time).\textbf{Results:} The results of the series of experiments reveal that the \textit{subjects who practiced mindfulness developed slightly better conceptual models} (their quality was 8.16 $\backslash$\% higher) \textit{and they did it faster} (they were 46,67 \% more productive) than the control group, even if they did not have a previous interest in meditation.\textbf{Conclusions:} The \textit{practice of mindfulness improves the performance of Software Engineering students in conceptual modeling, especially their productivity}. More experimentation is needed in order to confirm the outcomes in other Software Engineering tasks and populations..
+\end{abstract}
+
+
+\section{Introduction}
+\label{sec:intro}
+\textbf{Analyze}  the practice of mindfulness \textbf{for the purpose of}  evaluating its effects \textbf{with respect to}  conceptual modeling performance \textbf{from the point of view of}  the researchers \textbf{in the context of}  second-year students of the degree in Software Engineering at the University of Seville.
+
+The remainder of this report is structured as follows: section \ref{sec:variables} decribes the variables taking into account in the experiment. Section \ref{sec:hypotheses} describes the research hypotheses. Section \ref{sec:design} describes the experimental design of the study.Section \ref{sec:analyses} describes the statistical analyses to be performed in order to confirm or disprove the research hypotheses, and the rationale behind them. Finally, section \ref{sec:conclusions} describes the conclusions drawn from the study.\section{Variables}
+\label{sec:variables}
+\subsection{Factors}
+    \begin{itemize}
+       \item \textbf{treatment}:
+       This factor represents \textit{the treatment allocated to the subjects in the training workshops}. 
+       The domain of this variable is a This is a discrete variable measured in a nominal scale. Specifically, the levels of the variable are:
+       \begin{itemize}
+         \item \textit{MF} 
+       This level represents \textit{the Mindfulness workshops}. In the mindfulness workshops, the sessions were face-to-face, four days a week.All the sessions followed the same dynamics: the students and the researcher responsible for conducting the session met in a classroom; they all sat down, lights were turned off and curtains were drawn letting only some dim light in the room; when they all were in silence, an alarm was programmed; during the first five minutes, the subjects were guided in their body scan; then, during the remaining time, they were invited to focus solely on their breathing. Sometimes, the researcher asked "where is your mind now?" in order to re-focus them on breathing. In the event a student were late, they were instructed to enter the room making as less noise as possible and sit on one of the chairs that were intentionally left empty near the door.
+         \item \textit{PS} 
+       This level represents the \textit{Public Speaking workshops}. In the public speaking workshops, the subjects were given some basic guidelines on how to prepare a talk, some notions on non-verbal communication and some seminal talks were commented. Later, they were invited to look for related videos in the Internet and to prepare a script of a public presentation on a topic of their interest.
+       \end{itemize}
+
+       \item \textbf{exercise}:
+       This factor represents \textit{the conceptual modeling exercises done before and after the treatment} 
+       The domain of this variable is a This is a discrete variable measured in a nominal scale. Specifically, the levels of the variable are:
+       \begin{itemize}
+         \item \textit{Erasmus} 
+       Some data about the Erasmus exercise are:$\backslash$$\backslash$ Number of words in the interview transcript: 951 Number of classes (\$CLASS\_R\$):               8 Number of associations (\$ASSOC\_R\$):          10 Number of attributes ( \$ATTR\_R\$):            17 Average number of attributes per class:      2,29
+         \item \textit{EoDP} 
+       Number of words in the interview transcript: 1223 Number of classes (\$CLASS\_R\$):               8 Number of associations (\$ASSOC\_R\$):          10 Number of attributes ( \$ATTR\_R\$):            24 Average number of attributes per class:      3
+       \end{itemize}
+
+    \end{itemize}
+\subsection{Outcomes}
+    \begin{itemize}
+      \item \textbf{Effectiveness}:
+      Conceptual modeling effectiveness is defined as the percentage of semantic quality achieved by a subject 
+      The domain of this variable is a This is a continuous variable.Specifically, the value of this variable must meet the following constraints:
+      \begin{itemize}
+        \item It is a real number.
+
+        \item It is comprised between 0 and 1
+      \end{itemize}
+
+      \item \textbf{Efficiency}:
+      Conceptual modeling efficiency is defined as the quotient between the achieved semantic quality and the time in minutes spent by a subject in finishing a conceptual modeling exercise 
+      The domain of this variable is a This is a continuous variable.Specifically, the value of this variable must meet the following constraints:
+      \begin{itemize}
+        \item It is a real number.
+
+        \item It is comprised between 0 and 1
+      \end{itemize}
+
+    \end{itemize}
+\section{Hypotheses}
+\label{sec:hypotheses}
+The research hypothesis of the experiment are enunciated below. When possible, for each research hypothesis, a pair of associated statistical hypothesis is formulated:
+\begin{itemize}
+\item[$H1$:]
+\textbf{Mindfullness helps students make better conceptual models.}
+\\. 
+In general, this hypotheis can be stated as: \textit{the value of Effectiveness is impacted significantly by treatment}.
+Asosociated to this research hypothesis, we can formulate two mutually excluding statistical hypothesis: the \textit{null hypothesis} ${H1}_0$, that states that there is not a statistically significant difference in the mean of \textit{Effectiveness} for the set observations with different values of \textit{treatment}; and the \textit{alternative hypothesis} ${H1}_0$: $\neg{H_{0,2}}$, that states that such a difference in the means exists and it is not due to chance.\newline
+
+\item[$H2$:]
+\textbf{Mindfullness helps students make conceptual models faster.}
+\\. 
+In general, this hypotheis can be stated as: \textit{the value of Efficiency is impacted significantly by treatment}.
+Asosociated to this research hypothesis, we can formulate two mutually excluding statistical hypothesis: the \textit{null hypothesis} ${H2}_0$, that states that there is not a statistically significant difference in the mean of \textit{Efficiency} for the set observations with different values of \textit{treatment}; and the \textit{alternative hypothesis} ${H2}_0$: $\neg{H_{0,2}}$, that states that such a difference in the means exists and it is not due to chance.\newline
+
+\end{itemize}
+\section{Design}
+\label{sec:design}
+The experimental design used is \textit{based on the classic 2 x 2 mixed factorial design}. In such designs, each subject is assigned to one single treatment, usually including a placebo treatment, and two repeated measures on the response variables are taken before and after the application of the treatment in order to evaluate its effects. This is a common design in Medicine or Psychology (also called pre-post designs) when the evolution of patients under a given therapeutic treatment needs to be studied. 
+\\
+\\In our case, the design includes two factors with two levels: (i) \textit{exercise}, which is a within-subjects factor, i.e. each subject is tested at each level of the factor and (ii) \textit{treatment}, which is a between-subjects factor, i.e. different groups of subjects are used for each level of the factor.\subsection{Sampling}
+Random
+\subsection{Sampling}
+The sampling strategy was custom.Custom
+\subsection{Groups}
+\label{sec:groups}
+The experimental design involves 2 groups:
+\begin{itemize}
+    \item G-MF. The size of this group at the end of the experiment was 16. 
+    \item G-PS. The size of this group at the end of the experiment was 16. 
+\end{itemize}
+\subsection{Experimental protocol}
+\label{sec:group}
+\begin{table}[h]
+  \begin{tabular}{|l|l|l|l|}
+  \hline
+  \textbf{Id} & \textbf{Type} & \textbf{On Group} & \textbf{Details} \\ 
+  \hline
+  S1 & Measurement & G-PS & of Effectiveness Efficiency   setting exercise to Erasmus     \\ 
+ \hline 
+  S2 & Measurement & G-MF & of Effectiveness Efficiency   setting exercise to Erasmus     \\ 
+ \hline 
+  S3 & Treatment & G-MF & setting treatment to MF     \\ 
+ \hline 
+  S4 & Treatment & G-PS & setting treatment to PS     \\ 
+ \hline 
+  S5 & Measurement & G-PS & of Effectiveness Efficiency   setting exercise to EoDP     \\ 
+ \hline 
+  S6 & Measurement & G-MF & of Effectiveness Efficiency   setting exercise to EoDP     \\ 
+ \hline 
+  \hline
+  \end{tabular}
+  \caption{Steps of the experimental protocol}
+  \label{table:protocol}
+\end{table}
+\section{Conduction}
+\label{sec:conduction}
+The experiment has a single conduction (no replications) that is described next. The  conduction lasted from Tue May 15 07:00:00 CEST 2018 until Tue May 15 06:50:00 CEST 2018. 
+During the execution of the experiment, not only did the participants take the scheduled ISEIS lessons, but they also worked in teams on their semester projects. In those projects, the students allocate themselves into teams and look for a real organization, usually a small business or a nonprofit organization. Then, they perform a requirements elicitation  process (interviews, document analysis, etc.), develop a draft requirements specification and a conceptual model, and transform the conceptual model into a relational database schema.
+\\
+\\The students recruitment took place during the third week of the first semester. It consisted of a motivating presentation about (i) the ongoing research, (ii) the personal and professional benefits of learning non-technical skills such as mindfulness and public speaking, (iii) the expected commitment as a participant, i.e. attending the workshop sessions and doing both conceptual modeling exercises, and (iv) the bonus for doing so, i.e. half a point on a 10-point scale. After the initial presentation, all the students filled out manually a questionnaire in which they stated their interest in the proposed workshops and their degree of commitment.
+\\
+\\At the end of the fifth week of the semester, the two groups of subjects did the pre-treatment exercise the same day during a 2-hour lesson. The aim of the exercise was to develop a conceptual model after analyzing a transcript of an interview in which a requirements engineer asks a customer about some problem domain concepts, the way they currently perform their business tasks and their expectations about the information system to be developed.
+\\
+\\The next week after the pre-treatment exercise, all subjects attended an introductory seminar about the workshop corresponding to their assigned group. Those seminars took about one hour and they were delivered out of ordinary schedule. Then, the treatment sessions were delivered also out of ordinary schedule and took place always in the same conditions for each group, i.e. same classroom, same hour. The attendance of the students was controlled by sign-in sheets.
+\\
+\\Once the mindfulness workshop was finished, both groups did the post-treatment exercise in separate classrooms. They followed the same procedure as described above with the only difference that in the mindfulness group the initial 15 minutes were dedicated to a meditation in group. Then, the subjects did the exercise individually.\section{Analyses}
+\label{sec:analyses}
+\subsection{Intended analyses}
+\label{sec:intended-analyses}
+\subsubsection{NHST}
+\begin{itemize}
+\item TTest where exercise='EoDP' by treatment, 0.05
+\end{itemize}
+\subsubsection{R-Analysis}
+\begin{itemize}
+\item Execute R script 'LabPack/analysis/AggregatedDataMetaAnalysis.r'\item Execute R script 'LabPack/analysis/PooledDataMetaAnalysis.r'
+\end{itemize}
+\subsection{Analyses results}
+\label{sec:analyses-results}
+
+\section*{Acnowledgements}
+ The authors of this experiments are grateful to the \href{http://exemplar.us.es}{EXEMPLAR} development team for providing such a wonderful tool.
+\appendix
+\section{Materials}
+\label{sec:materials}
+\begin{itemize}
+    \item 
+     LabPack
+     \begin{itemize}
+     \item 
+         analysis
+         \begin{itemize}
+         \item 
+             AggregatedDataMetaAnalysis.r
+         \item 
+             PooledDataMetaAnalysis.r
+         \end{itemize}
+     \item 
+         BaselineExperimentDescription.sedlSEDL description of the baseline experiment.
+     \item 
+         data
+         \begin{itemize}
+         \item 
+             Datos2014AnalysisR.csv
+         \item 
+             Datos2015AnalysisR.csv
+         \item 
+             Datos2016AnalysisR.csv
+         \end{itemize}
+     \item 
+         ExperimentalDescription.ang
+     \item 
+         ExperimentalDescription.ctl
+     \item 
+         ExperimentalDescription.sedl
+     \item 
+         Latex-OutputFolder
+         \begin{itemize}
+         \item 
+             report.aux
+         \item 
+             report.bbl
+         \item 
+             report.blg
+         \item 
+             report.ilg
+         \item 
+             report.ind
+         \item 
+             report.log
+         \item 
+             report.out
+         \item 
+             report.pdf
+         \item 
+             report.tex
+         \end{itemize}
+     \item 
+         materialsthis is another simple test
+         \begin{itemize}
+         \item 
+             InterestQuestionnaire.pdf
+         \item 
+             Mindfulness.pdf
+         \item 
+             Problem-EODP.pdf
+         \item 
+             Problem-Erasmus.pdf
+         \item 
+             Recruitment.pdf
+         \item 
+             SatisfactionQuestionnaire.pdf
+         \end{itemize}
+     \item 
+         R-OutputFolder
+         \begin{itemize}
+         \item 
+             EffectivenessBoxPlot-with2014.emf
+         \item 
+             EffectivenessBoxPlot-with2014.png
+         \item 
+             EffectivenessForest.emf
+         \item 
+             EffectivenessForest.png
+         \item 
+             EffectivenessFunnel.emf
+         \item 
+             EffectivenessFunnel.png
+         \item 
+             EffectivenessGlobalBoxplot.emf
+         \item 
+             EffectivenessGlobalBoxplot.png
+         \item 
+             EfficiencyBoxPlot-with2014.emf
+         \item 
+             EfficiencyBoxPlot-with2014.png
+         \item 
+             EfficiencyForest.emf
+         \item 
+             EfficiencyForest.png
+         \item 
+             EfficiencyFunnel.emf
+         \item 
+             EfficiencyFunnel.png
+         \item 
+             EfficiencyGlobalBoxplot.emf
+         \item 
+             EfficiencyGlobalBoxplot.png
+         \item 
+             report.tex
+         \item 
+             Rplot001.jpeg
+         \end{itemize}
+     \item 
+         raw-data.csv
+     \item 
+         Readme.txt
+     \item 
+         Replication1ExperimentDescription.sedl
+     \item 
+         Replication2ExperimentDescription.sedl
+     \item 
+         RUN-2018-41-4
+     \end{itemize}
+\end{itemize}
+\end{document}
